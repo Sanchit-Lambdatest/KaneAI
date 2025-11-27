@@ -1,0 +1,24 @@
+name: Run Sanity Tests on LambdaTest
+
+on:
+ workflow_dispatch: 
+
+jobs:
+  sanity-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Sanity Test on LambdaTest
+        id: trigger-test
+        run: |
+          echo "Triggering sanity tests on LambdaTest"
+          response=$(curl --location 'https://test-manager-api.lambdatest.com/api/atm/v1/hyperexecute' \
+          --header 'Content-Type: application/json' \
+          --header 'Authorization: Basic bG9rZXNobGFka2FuaTp4eFNVVE1YRnhRWTZSamZYWGZSclJzVWNXejdSZlhpMU5OaTlob0Y1Q1Bkb1JrVlFNYQ==' \
+          --data '{
+          "test_run_id": "01JRWWNN75F2FGGB03S2BH4RB8",
+          "concurrency": 1,
+          "title": "TR59"
+          }')
+          echo "Response: $response"
+      
